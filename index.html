@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>王嘉越的寒假作业</title>
+	<style>
+		#submit {
+			width: 100px;
+			height: 40px;
+			background: #69c;
+			cursor: pointer;
+			float: right;
+		}
+		.title{
+			font-size: 20px;
+		}
+		input{
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+	<div id="time"></div>
+	<div id="list"></div>
+	<button id="submit">提交</button>
+</body>
+</html>
+<script src="./js/index.js"></script>
+<script type="text/javascript">
+	let btn = document.getElementById('submit');
+	let timeDom = document.getElementById("time");
+	let answerList = questionList.result;
+	let timelen = answerList.length;
+	let totalTime = timelen * 1.1; // 规定做题时长 每题一分钟
+	let timeSeconds = totalTime * 60;
+	timeDom.innerHTML = seconds2time(timeSeconds);
+	let tag = setInterval(() => {
+		if (timeSeconds <= 0) {
+			clearInterval(tag);
+			btn.click();
+			setTimeout(() => {
+				alert('时间到你做完了吗');
+			}, 0)
+		} else {
+			timeSeconds -= 1;
+		}
+		timeDom.innerHTML = seconds2time(timeSeconds);
+	}, 1000);
+
+	window.localStorage.setItem('errorList', 'aaa')
+	let Storage = new LocalStorageList('errorList');
+
+	/**
+	 * [onclick 提交按钮的点击事件]
+	 * @return {[type]} [description]
+	 */
+	btn.onclick = function() {
+		let error = 0;
+		let answerInput = document.getElementsByTagName('input');
+		let len = answerInput.length;
+				for (var i = 0; i < len; i++) {
+			let item = answerInput[i];
+			item.style = "border: 1px solid initial";
+		}
+		for (var i = 0; i < len; i++) {
+			let item = answerInput[i];
+			let value = item.value;
+			if (value != String(answerList[i])) {
+				item.style = "border: 2px solid #f00";
+				error += 1;
+			}
+		}
+		if (error === 0) {
+			alert('你真棒! 都答对了。。。。。');
+		}
+	}
+
+	/**
+	 * [seconds2time 秒数转化为实践]
+	 * @param  {Number} seconds [输入的秒数]
+	 * @return {String}         [返回的时间格式]
+	 */
+	function seconds2time(seconds) {
+		let [hour, min, sec] = [doubleNum(parseInt(seconds / 3600) % 24) , doubleNum(parseInt(seconds / 60) % 60) , doubleNum(parseInt(seconds % 60))];
+		return `${hour}:${min}:${sec}`;
+	}
+
+	/**
+	 * [doubleNum 双位数]
+	 * @param  {[type]} num [description]
+	 * @return {[type]}     [description]
+	 */
+	function doubleNum(num) { // 返回两位实数
+        if (num < 10) {
+            return String('0' + num);
+        } else {
+            return num;
+        }
+    }
+
+
+    function LocalStorageList(key) {
+    	let storage = window.localStorage.getItem(key);
+    	
+
+
+
+
+    }
+</script>
