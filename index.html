@@ -31,8 +31,11 @@
 	<div id="list"></div>
 	<button id="submit">提交</button>
 	<hr>
-	<div id="errorlist">
+	<div class="errorlist">
 		<h3>错题集</h3>
+		<div id="errorlist">
+			
+		</div>
 	</div>
 	
 </body>
@@ -64,13 +67,7 @@
 	if (!Storagevalue) {
 		Storage.setItem([]);
 	}
-	// 生成错题集
-	Storagevalue.forEach(item => {
-		let span = document.createElement('span');
-		span.setAttribute('class', 'error_item');
-		span.innerHTML = item;
-		errorDom.appendChild(span);
-	})
+	renderErrorItem(Storagevalue, errorDom);
 	/**
 	 * [onclick 提交按钮的点击事件]
 	 * @return {[type]} [description]
@@ -85,21 +82,39 @@
 			item.style = "border: 1px solid initial";
 		}
 		for (var i = 0; i < len; i++) {
-			let item = answerInput[i];
-			let value = item.value;
+			let item = answerInput[i],
+			value = item.value,
+			title = spanList[i].innerHTML;
+			title = title.replace(/\s+/g, '');
 			if (value != String(answerList[i])) {
 				item.style = "border: 2px solid #f00";
-				let title = spanList[i].innerHTML;
-				title = title.replace(/\s+/g, '');
 				if (!Storagevalue.includes(title)) {
 					Storagevalue.push(title)
 				};
 				error += 1;
+			} else {
+				if (Storagevalue.includes(title)) {
+					let index = Storagevalue.indexOf(title);
+					Storagevalue.splice(index, 1);
+				}
 			}
 		}
 		Storage.setItem(Storagevalue);
+		Storagevalue = Storage.getItem();
+		renderErrorItem(Storagevalue, errorDom);
 		if (error === 0) {
 			alert('你真棒! 都答对了。。。。。');
 		}
+	}
+
+
+	function renderErrorItem(errorList, dom) {
+		dom.innerHTML = "";
+		errorList.forEach(item => {
+			let span = document.createElement('span');
+			span.setAttribute('class', 'error_item');
+			span.innerHTML = item;
+			dom.appendChild(span);
+		})
 	}
 </script>
