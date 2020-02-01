@@ -2,7 +2,7 @@
 * @Author: wangfpp
 * @Date:   2020-01-31 19:00:06
 * @Last Modified by:   wangfpp
-* @Last Modified time: 2020-02-01 11:25:49
+* @Last Modified time: 2020-02-01 12:21:26
 */
 // 随机出题针对二年级下册的加减乘除
 const opera = ["+", "-", "x", "÷"]; // 存储运算符号
@@ -73,24 +73,7 @@ questionList.num_one.forEach((item, index) => {
 	questionList.result.push(result);
 });
 let div = document.createElement('div');
+let listDom = document.getElementById('list');
 div.innerHTML = domStr;
-document.body.appendChild(div);
+listDom.appendChild(div);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function randomArea(min, max) {
-	return Math.floor(Math.random() * (max - min + 1) + min);
-}
